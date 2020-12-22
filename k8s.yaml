@@ -13,6 +13,6 @@ spec:
         app: jenkins-demo
     spec:
       containers:
-      - image: chenyujie19951114/jenkins-demo:<BUILD_TAG>
+      - image: httpd:latest
         imagePullPolicy: IfNotPresent
         name: jenkins-demo
