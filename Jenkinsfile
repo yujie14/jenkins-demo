@@ -3,10 +3,10 @@ node('chenyujie-jnlp') {
         echo "1.Prepare Stage"
         checkout scm
         script {
-            echo "================================${BRANCH_NAME}=================================="
+            echo "================================$BRANCH_NAME=================================="
             build_tag = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
             if (BRANCH_NAME != 'master') {
-                build_tag = "${BRANCH_NAME}-${build_tag}"
+                build_tag = "$BRANCH_NAME-${build_tag}"
             }
         }
     }
