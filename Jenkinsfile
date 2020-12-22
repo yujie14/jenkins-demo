@@ -25,7 +25,7 @@ node('chenyujie-jnlp') {
     }
     stage('Deploy') {
         echo "5. Deploy Stage"
-        if (branch_name == 'master') {
+        if (env.GIT_BRANCH == 'master') {
             echo "================================${env.GIT_BRANCH}=================================="
             input "确认要部署线上环境吗？"
         }
