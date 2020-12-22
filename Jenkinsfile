@@ -3,10 +3,10 @@ node('chenyujie-jnlp') {
         echo "1.Prepare Stage"
         checkout scm
         script {
-            echo "================================$BRANCH_NAME=================================="
+            branch_name = sh(script: 'git rev-parse --abbrev-ref HEAD', returnStdout: true).trim()
             build_tag = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
-            if (BRANCH_NAME != 'master') {
-                build_tag = "$BRANCH_NAME-${build_tag}"
+            if (branch_name != 'master') {
+                build_tag = "${branch_name}-${build_tag}"
             }
         }
     }
@@ -26,13 +26,13 @@ node('chenyujie-jnlp') {
     }
     stage('Deploy') {
         echo "5. Deploy Stage"
-        if (BRANCH_NAME == 'master') {
-            echo "================================${BRANCH_NAME}=================================="
+        if (branch_name == 'master') {
+            echo "================================${branch_name}=================================="
             input "确认要部署线上环境吗？"
         }
-        echo "================================${BRANCH_NAME}=================================="
+        echo "================================${branch_name}=================================="
         sh "sed -i 's/<BUILD_TAG>/${build_tag}/' k8s.yaml"
-        sh "sed -i 's/<BRANCH_NAME>/${BRANCH_NAME}/' k8s.yaml"
+        sh "sed -i 's/<BRANCH_NAME>/${branch_name}/' k8s.yaml"
         sh "kubectl apply -f k8s.yaml --record"
     }
 }
