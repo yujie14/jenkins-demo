@@ -26,6 +26,7 @@ node('chenyujie-jnlp') {
     stage('Deploy') {
         echo "5. Deploy Stage"
         if (env.BRANCH_NAME == 'master') {
+            echo "================================${env.BRANCH_NAME}=================================="
             input "确认要部署线上环境吗？"
         }
         sh "sed -i 's/<BUILD_TAG>/${build_tag}/' k8s.yaml"
